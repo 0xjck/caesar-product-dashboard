@@ -42,6 +42,11 @@
             z-index: 100;
         }
 
+        /* Mobile view - add rounded corners */
+        .mobile-view .side-nav {
+            border-radius: 20px 0 0 20px;
+        }
+
         .side-nav.active {
             width: 280px;
         }
@@ -121,10 +126,43 @@
             position: relative;
         }
 
+        /* Chat Header */
+        .chat-header {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .chat-header-actions {
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .has-messages .chat-header-actions {
+            display: flex;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .header-icon:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
         .burger-menu {
-            position: absolute;
-            top: 20px;
-            left: 20px;
             width: 30px;
             height: 30px;
             cursor: pointer;
@@ -145,41 +183,21 @@
         .messages-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
-            padding-bottom: 20px;
+            padding: 20px 180px;
+            padding-bottom: 140px;
+            padding-top: 20px;
+        }
+
+        /* Mobile view - reduce padding */
+        .mobile-view .messages-area {
+            padding: 20px 20px 140px 20px !important;
         }
 
         .message {
             margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .message.user .message-avatar {
-            background-color: #007AFF;
-            color: white;
-        }
-
-        .message.ai .message-avatar {
-            background-color: #4CAF50;
-            color: white;
         }
 
         .message-content {
-            flex: 1;
             padding: 12px 16px;
             background-color: white;
             border-radius: 12px;
@@ -191,6 +209,73 @@
             color: white;
         }
 
+        /* Research Response Styling */
+        .research-response .message-content {
+            max-width: none;
+            padding: 20px;
+        }
+
+        .research-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .research-header h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .research-summary {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .research-question {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+
+        .research-question h4 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .research-question p {
+            margin: 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .research-answer h4 {
+            margin: 20px 0 15px 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .research-answer h5 {
+            margin: 20px 0 10px 0;
+            color: #007AFF;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .research-answer p {
+            margin: 0 0 15px 0;
+            line-height: 1.6;
+            color: #444;
+        }
+
         /* Input Area */
         .input-container {
             position: fixed;
@@ -200,10 +285,22 @@
             z-index: 50;
             width: 90%;
             max-width: 600px;
-            transition: left 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+        /* Input at bottom when messages exist */
+        .has-messages .input-container {
+            bottom: 20px;
+            transform: translateX(-50%);
         }
 
         .side-nav.active ~ .chat-container .input-container {
+            left: calc(50% + 140px);
+            margin-left: 10px;
+        }
+
+        /* Input positioning with nav active and messages */
+        .side-nav.active ~ .chat-container.has-messages .input-container {
             left: calc(50% + 140px);
             margin-left: 10px;
         }
@@ -350,8 +447,7 @@
         .view-toggle {
             position: fixed;
             right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 65px;
             background-color: white;
             border: 1px solid #e0e0e0;
             border-radius: 20px;
@@ -385,6 +481,64 @@
             background-color: #f0f0f0;
         }
 
+        /* Device Dropdown */
+        .device-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 4px);
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 180px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .device-dropdown.active {
+            display: block;
+        }
+
+        .device-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .device-option:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .device-option:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .device-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .device-option.selected {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        .device-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .device-size {
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .device-option.selected .device-size {
+            color: rgba(255,255,255,0.8);
+        }
+
         /* Mobile View Styles */
         .mobile-view {
             max-width: 390px;
@@ -393,6 +547,7 @@
             border-radius: 20px;
             overflow: hidden;
             position: relative;
+            transition: max-width 0.3s ease;
         }
 
         .mobile-view .app-container {
@@ -447,6 +602,14 @@
         .mobile-view .side-nav.active ~ .chat-container .input-background {
             display: none !important;
         }
+
+        .mobile-view .side-nav.active ~ .chat-container .messages-area {
+            display: none !important;
+        }
+
+        .mobile-view .side-nav.active ~ .chat-container .chat-header {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -459,12 +622,25 @@
                 <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
         </button>
-        <button class="toggle-option" id="mobileToggle" onclick="switchView('mobile')" title="Mobile View">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-            </svg>
-        </button>
+        <div style="position: relative;">
+            <button class="toggle-option" id="mobileToggle" onclick="toggleMobileView()" title="Mobile View">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+            </button>
+            
+            <div class="device-dropdown" id="deviceDropdown">
+                <div class="device-option selected" onclick="selectDevice('iphone14', 390)">
+                    <div class="device-name">iPhone 14</div>
+                    <div class="device-size">390 × 844px</div>
+                </div>
+                <div class="device-option" onclick="selectDevice('pixel7', 412)">
+                    <div class="device-name">Pixel 7</div>
+                    <div class="device-size">412 × 915px</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="app-container" id="appContainer">
@@ -511,9 +687,9 @@
                     </div>
                     <button onclick="openSettings()" style="width: 32px; height: 32px; border-radius: 8px; background-color: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="5" cy="12" r="1"></circle>
                             <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="12" cy="5" r="1"></circle>
-                            <circle cx="12" cy="19" r="1"></circle>
+                            <circle cx="19" cy="12" r="1"></circle>
                         </svg>
                     </button>
                 </div>
@@ -522,11 +698,32 @@
 
         <!-- Chat Container -->
         <div class="chat-container">
-            <div class="burger-menu" onclick="toggleSideNav()">
-                <div class="burger-line"></div>
-                <div class="burger-line"></div>
-                <div class="burger-line"></div>
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="burger-menu" onclick="toggleSideNav()">
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                    <div class="burger-line"></div>
+                </div>
+                
+                <div class="chat-header-actions">
+                    <button class="header-icon" onclick="shareChat()" title="Share">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                            <polyline points="16,6 12,2 8,6"></polyline>
+                            <line x1="12" y1="2" x2="12" y2="15"></line>
+                        </svg>
+                    </button>
+                    <button class="header-icon" onclick="openChatMenu()" title="Menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
+                </div>
             </div>
+            
             <div class="messages-area" id="messagesArea">
             </div>
 
@@ -580,22 +777,141 @@
         });
 
         function loadChat(chatName) {
-            toggleSideNav();
             const messagesArea = document.getElementById('messagesArea');
+            const chatContainer = document.querySelector('.chat-container');
+            const appContainer = document.getElementById('appContainer');
+            
+            // Check if we're in mobile view mode
+            const isMobileView = appContainer.parentElement.classList.contains('mobile-view');
+            
+            // Close navigation in mobile view
+            if (isMobileView) {
+                toggleSideNav();
+            }
+            
+            // Add has-messages class to move input to bottom
+            chatContainer.classList.add('has-messages');
+            
+            // Sample conversation for the selected chat with Caesar's deep research format
+            const sampleResponses = {
+                'Morning conversation': {
+                    question: 'What are the key factors driving the growth of AI in healthcare?',
+                    response: `
+                        <div class="research-header">
+                            <h3>AI Healthcare Growth Analysis</h3>
+                            <div class="research-summary">
+                                <strong>Summary:</strong> Analysis of technological, economic, and regulatory factors driving AI adoption in healthcare systems globally.
+                            </div>
+                        </div>
+                        
+                        <div class="research-question">
+                            <h4>Original Question:</h4>
+                            <p>What are the key factors driving the growth of AI in healthcare?</p>
+                        </div>
+                        
+                        <div class="research-answer">
+                            <h4>Detailed Analysis:</h4>
+                            
+                            <h5>1. Technological Advancements</h5>
+                            <p>Machine learning algorithms have reached unprecedented accuracy in medical imaging, with deep learning models now capable of detecting cancers and other conditions with diagnostic accuracy comparable to or exceeding human specialists.</p>
+                            
+                            <h5>2. Data Availability</h5>
+                            <p>The digitization of healthcare records has created vast datasets that enable AI systems to learn from millions of patient cases, improving diagnostic capabilities and treatment recommendations.</p>
+                            
+                            <h5>3. Cost Reduction Pressures</h5>
+                            <p>Healthcare systems worldwide face increasing pressure to reduce costs while maintaining quality of care. AI automation can significantly reduce administrative overhead and improve operational efficiency.</p>
+                            
+                            <h5>4. Regulatory Support</h5>
+                            <p>Government agencies like the FDA have established clearer pathways for AI medical device approval, encouraging innovation while maintaining safety standards.</p>
+                        </div>
+                    `
+                },
+                'Project discussion': {
+                    question: 'How do blockchain networks achieve consensus?',
+                    response: `
+                        <div class="research-header">
+                            <h3>Blockchain Consensus Mechanisms</h3>
+                            <div class="research-summary">
+                                <strong>Summary:</strong> Comprehensive overview of how distributed blockchain networks reach agreement on transaction validity and network state.
+                            </div>
+                        </div>
+                        
+                        <div class="research-question">
+                            <h4>Original Question:</h4>
+                            <p>How do blockchain networks achieve consensus?</p>
+                        </div>
+                        
+                        <div class="research-answer">
+                            <h4>Detailed Analysis:</h4>
+                            
+                            <h5>1. Proof of Work (PoW)</h5>
+                            <p>Used by Bitcoin, miners compete to solve computationally intensive puzzles. The first to solve gets to propose the next block and receive rewards. Security comes from the economic cost of attacking the network.</p>
+                            
+                            <h5>2. Proof of Stake (PoS)</h5>
+                            <p>Validators are chosen to propose blocks based on their stake in the network. Ethereum 2.0 uses this mechanism, which is more energy-efficient than PoW while maintaining security through economic incentives.</p>
+                            
+                            <h5>3. Delegated Proof of Stake (DPoS)</h5>
+                            <p>Token holders vote for delegates who validate transactions on their behalf. This approach offers faster transaction processing but with some trade-offs in decentralization.</p>
+                            
+                            <h5>4. Byzantine Fault Tolerance</h5>
+                            <p>These algorithms ensure the network can reach consensus even when some nodes act maliciously or fail. Essential for permissioned networks where participants are known.</p>
+                        </div>
+                    `
+                }
+            };
+            
+            const chatData = sampleResponses[chatName] || {
+                question: `What is ${chatName.toLowerCase()}?`,
+                response: `
+                    <div class="research-header">
+                        <h3>${chatName} Analysis</h3>
+                        <div class="research-summary">
+                            <strong>Summary:</strong> Deep research analysis of ${chatName.toLowerCase()} covering key concepts, applications, and implications.
+                        </div>
+                    </div>
+                    
+                    <div class="research-question">
+                        <h4>Original Question:</h4>
+                        <p>What is ${chatName.toLowerCase()}?</p>
+                    </div>
+                    
+                    <div class="research-answer">
+                        <h4>Detailed Analysis:</h4>
+                        <p>This is a sample deep research response for "${chatName}". In a real application, Caesar would provide comprehensive, well-structured analysis with multiple sections, citations, and detailed explanations.</p>
+                        
+                        <h5>Key Components</h5>
+                        <p>Caesar's responses typically include historical context, current applications, technical details, and future implications of the topic being researched.</p>
+                        
+                        <h5>Research Methodology</h5>
+                        <p>Each response is generated through analysis of multiple sources, fact-checking, and structured presentation to provide maximum value to the user.</p>
+                    </div>
+                `
+            };
+            
             messagesArea.innerHTML = `
-                <div class="message ai">
-                    <div class="message-avatar">AI</div>
+                <div class="message user">
                     <div class="message-content">
-                        Loaded chat: ${chatName}
+                        ${chatData.question}
+                    </div>
+                </div>
+                <div class="message ai research-response">
+                    <div class="message-content">
+                        ${chatData.response}
                     </div>
                 </div>
             `;
+            
+            // Scroll to bottom
+            messagesArea.scrollTop = messagesArea.scrollHeight;
         }
 
         function newChat() {
             toggleSideNav();
             const messagesArea = document.getElementById('messagesArea');
+            const chatContainer = document.querySelector('.chat-container');
             messagesArea.innerHTML = '';
+            // Remove has-messages class to center input again
+            chatContainer.classList.remove('has-messages');
         }
 
         function handleFileSelect(event) {
@@ -625,11 +941,14 @@
             
             if (message || selectedFiles.length > 0) {
                 const messagesArea = document.getElementById('messagesArea');
+                const chatContainer = document.querySelector('.chat-container');
+                
+                // Add has-messages class to move input to bottom
+                chatContainer.classList.add('has-messages');
                 
                 // Add user message
                 const userMessageHtml = `
                     <div class="message user">
-                        <div class="message-avatar">U</div>
                         <div class="message-content">
                             ${message}
                             ${selectedFiles.length > 0 ? `<br><small>📎 ${selectedFiles.length} file(s) attached</small>` : ''}
@@ -648,7 +967,6 @@
                 setTimeout(() => {
                     const aiResponse = `
                         <div class="message ai">
-                            <div class="message-avatar">AI</div>
                             <div class="message-content">
                                 I've received your message${selectedFiles.length > 0 ? ' and files' : ''}. This is a demo response. In a real application, this would be processed by an AI model.
                             </div>
@@ -686,21 +1004,84 @@
             }
         }
 
+        function shareChat() {
+            alert('Share chat functionality - would open share options');
+        }
+
+        function openChatMenu() {
+            alert('Chat menu - would show options like rename, delete, export, etc.');
+        }
+
+        let currentDevice = { name: 'iphone14', width: 390 };
+
         function switchView(viewType) {
             const appContainer = document.getElementById('appContainer');
             const desktopToggle = document.getElementById('desktopToggle');
             const mobileToggle = document.getElementById('mobileToggle');
+            const deviceDropdown = document.getElementById('deviceDropdown');
             
             if (viewType === 'mobile') {
                 appContainer.parentElement.classList.add('mobile-view');
+                appContainer.parentElement.style.maxWidth = currentDevice.width + 'px';
                 desktopToggle.classList.remove('active');
                 mobileToggle.classList.add('active');
             } else {
                 appContainer.parentElement.classList.remove('mobile-view');
+                appContainer.parentElement.style.maxWidth = '';
                 desktopToggle.classList.add('active');
                 mobileToggle.classList.remove('active');
+                deviceDropdown.classList.remove('active');
             }
         }
+
+        function toggleMobileView() {
+            const appContainer = document.getElementById('appContainer');
+            const deviceDropdown = document.getElementById('deviceDropdown');
+            
+            if (appContainer.parentElement.classList.contains('mobile-view')) {
+                // If already in mobile view, toggle dropdown
+                deviceDropdown.classList.toggle('active');
+            } else {
+                // Switch to mobile view
+                switchView('mobile');
+                // Show dropdown
+                setTimeout(() => {
+                    deviceDropdown.classList.add('active');
+                }, 100);
+            }
+        }
+
+        function selectDevice(deviceName, width) {
+            const appContainer = document.getElementById('appContainer');
+            const deviceDropdown = document.getElementById('deviceDropdown');
+            
+            // Update current device
+            currentDevice = { name: deviceName, width: width };
+            
+            // Update mobile view width
+            if (appContainer.parentElement.classList.contains('mobile-view')) {
+                appContainer.parentElement.style.maxWidth = width + 'px';
+            }
+            
+            // Update selected state in dropdown
+            document.querySelectorAll('.device-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.target.closest('.device-option').classList.add('selected');
+            
+            // Close dropdown
+            deviceDropdown.classList.remove('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const deviceDropdown = document.getElementById('deviceDropdown');
+            const mobileToggle = document.getElementById('mobileToggle');
+            
+            if (!mobileToggle.contains(event.target) && !deviceDropdown.contains(event.target)) {
+                deviceDropdown.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
