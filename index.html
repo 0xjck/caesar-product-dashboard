@@ -68,6 +68,9 @@
             cursor: pointer;
             transition: background-color 0.2s;
             font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .nav-item:hover {
@@ -162,22 +165,21 @@
             background-color: rgba(0,0,0,0.05);
         }
 
-        .burger-menu {
+        .nav-toggle {
             width: 30px;
             height: 30px;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
-            justify-content: space-around;
+            align-items: center;
+            justify-content: center;
             padding: 5px;
             z-index: 100;
+            transition: all 0.2s ease;
         }
 
-        .burger-line {
-            width: 100%;
-            height: 2px;
-            background-color: #333;
-            transition: all 0.3s ease;
+        .nav-toggle:hover {
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 6px;
         }
 
         .messages-area {
@@ -186,6 +188,28 @@
             padding: 20px 180px;
             padding-bottom: 140px;
             padding-top: 20px;
+            position: relative;
+        }
+
+        /* Fade overlay above input - fixed to viewport bottom */
+        .chat-container::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 245px; /* 140px input area + 100px additional + 5px */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0.3) 65%, rgba(255, 255, 255, 0.7) 85%, rgba(255, 255, 255, 0.95) 100%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Adjust for mobile view */
+        .mobile-view .chat-container::after {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 390px;
         }
 
         /* Mobile view - reduce padding */
@@ -700,18 +724,23 @@
                     <div style="width: 40px; height: 40px; background-color: #007AFF; border-radius: 8px;"></div>
                     <div style="padding: 4px 12px; background-color: rgba(255,255,255,0.2); border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; font-size: 12px; color: #666;">Alpha</div>
                 </div>
-                <button onclick="newChat()" style="width: 36px; height: 36px; border-radius: 8px; background-color: #f0f0f0; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#e0e0e0'" onmouseout="this.style.backgroundColor='#f0f0f0'">+</button>
+                <button onclick="newChat()" style="width: 36px; height: 36px; border-radius: 8px; background-color: #f0f0f0; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#e0e0e0'" onmouseout="this.style.backgroundColor='#f0f0f0'">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="m18.5 2.5 a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </button>
             </div>
             
             <div class="nav-content">
                 <div style="margin-top: 24px;"></div>
                 <div class="nav-section-title">ASKS</div>
-            <div class="nav-item" onclick="loadChat('Morning conversation')">Morning conversation</div>
-            <div class="nav-item" onclick="loadChat('Project discussion')">Project discussion</div>
-            <div class="nav-item" onclick="loadChat('Code review')">Code review</div>
-            <div class="nav-item" onclick="loadChat('Design ideas')">Design ideas</div>
-            <div class="nav-item" onclick="loadChat('API documentation')">API documentation</div>
-            <div class="nav-item" onclick="loadChat('Database schema')">Database schema</div>
+            <div class="nav-item" onclick="loadChat('Morning conversation')">Quantum Computing Cryptographic Implications</div>
+            <div class="nav-item" onclick="loadChat('Project discussion')">Modern Web Framework Analysis</div>
+            <div class="nav-item" onclick="loadChat('Code review')">Authentication Security Best Practices</div>
+            <div class="nav-item" onclick="loadChat('Design ideas')">AI E-commerce Personalization Strategies</div>
+            <div class="nav-item" onclick="loadChat('API documentation')">Scalable RESTful API Design</div>
+            <div class="nav-item" onclick="loadChat('Database schema')">Multi-Tenant Database Architecture</div>
             </div>
             
             <!-- Documentation Cards -->
@@ -749,10 +778,11 @@
         <div class="chat-container">
             <!-- Chat Header -->
             <div class="chat-header">
-                <div class="burger-menu" onclick="toggleSideNav()">
-                    <div class="burger-line"></div>
-                    <div class="burger-line"></div>
-                    <div class="burger-line"></div>
+                <div class="nav-toggle" onclick="toggleSideNav()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="3" x2="9" y2="21"></line>
+                    </svg>
                 </div>
                 
                 <div class="chat-header-actions">
@@ -849,7 +879,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>Quantum Computing Breakthroughs and Cryptographic Implications</h1>
+                                    <h1>Quantum Computing Cryptographic Implications</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -857,7 +887,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Recent Quantum Computing Milestones</h2>
+                                    <h2 id="recent-quantum-computing-milestones">Recent Quantum Computing Milestones</h2>
                                     <p>The quantum computing landscape has experienced remarkable progress in 2024, with several groundbreaking achievements that bring us closer to practical quantum advantage.</p>
                                     
                                     <h3>IBM's 1000+ Qubit Systems</h3>
@@ -866,7 +896,7 @@
                                     <h3>Google's Error Correction Breakthrough</h3>
                                     <p>Google's Quantum AI team achieved a major breakthrough in quantum error correction using their surface code implementation. They demonstrated that increasing the size of their logical qubits from 17 to 49 physical qubits reduced the error rate by a factor of 2.14, proving that quantum error correction can work in practice.</p>
                                     
-                                    <h2>Impact on Current Cryptographic Systems</h2>
+                                    <h2 id="impact-on-current-cryptographic-systems">Impact on Current Cryptographic Systems</h2>
                                     <p>The advancement of quantum computing poses an existential threat to many cryptographic protocols currently securing global communications and data.</p>
                                     
                                     <h3>RSA and Elliptic Curve Vulnerability</h3>
@@ -875,7 +905,7 @@
                                     <h3>Timeline for Cryptographic Threats</h3>
                                     <p>The "Y2Q" moment - when quantum computers can break current encryption - is estimated by experts to occur between 2030 and 2040. However, "harvest now, decrypt later" attacks mean that sensitive data encrypted today could be vulnerable when quantum computers become available.</p>
                                     
-                                    <h2>Post-Quantum Cryptography Solutions</h2>
+                                    <h2 id="post-quantum-cryptography-solutions">Post-Quantum Cryptography Solutions</h2>
                                     <p>In response to quantum threats, the cryptographic community has developed new algorithms resistant to quantum attacks.</p>
                                     
                                     <h3>NIST Standardization</h3>
@@ -888,9 +918,9 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Recent Quantum Computing Milestones</div>
-                                <div class="section-nav-item">Impact on Current Cryptographic Systems</div>
-                                <div class="section-nav-item">Post-Quantum Cryptography Solutions</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('recent-quantum-computing-milestones')">Recent Quantum Computing Milestones</div>
+                                <div class="section-nav-item" onclick="scrollToSection('impact-on-current-cryptographic-systems')">Impact on Current Cryptographic Systems</div>
+                                <div class="section-nav-item" onclick="scrollToSection('post-quantum-cryptography-solutions')">Post-Quantum Cryptography Solutions</div>
                             </div>
                         </div>
                     `
@@ -901,7 +931,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>Comprehensive Analysis of Modern Web Frameworks for SaaS Development</h1>
+                                    <h1>Modern Web Framework Analysis</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -909,7 +939,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Framework Performance Benchmarks</h2>
+                                    <h2 id="framework-performance-benchmarks">Framework Performance Benchmarks</h2>
                                     <p>Recent benchmarks from TechEmpower and real-world SaaS deployments provide insights into framework performance at scale.</p>
                                     
                                     <h3>Request Handling Performance</h3>
@@ -918,7 +948,7 @@
                                     <h3>Time to First Byte (TTFB)</h3>
                                     <p>Server-side rendering frameworks show significant advantages: Next.js averages 50-100ms TTFB, while Nuxt 3 achieves 60-120ms. Client-side frameworks require 200-400ms for initial bundle download plus rendering time. Edge runtime deployments can reduce TTFB to under 30ms globally.</p>
                                     
-                                    <h2>Developer Experience and Productivity</h2>
+                                    <h2 id="developer-experience-and-productivity">Developer Experience and Productivity</h2>
                                     <p>Framework choice significantly impacts development velocity and team satisfaction in SaaS environments.</p>
                                     
                                     <h3>Type Safety and Developer Tools</h3>
@@ -927,7 +957,7 @@
                                     <h3>Learning Curve Analysis</h3>
                                     <p>Vue.js maintains the gentlest learning curve with its template-based approach. React requires understanding hooks and state management patterns. Svelte's compiler-based approach is intuitive but requires adjusting to its reactive declarations. Angular's steep learning curve is offset by its comprehensive tooling for enterprise teams.</p>
                                     
-                                    <h2>Scalability Patterns and Architecture</h2>
+                                    <h2 id="scalability-patterns-and-architecture">Scalability Patterns and Architecture</h2>
                                     <p>Different frameworks excel at different scaling challenges faced by growing SaaS applications.</p>
                                     
                                     <h3>Horizontal Scaling Capabilities</h3>
@@ -936,7 +966,7 @@
                                     <h3>Multi-tenant Architecture Support</h3>
                                     <p>Next.js middleware excels at tenant isolation through URL rewriting and header manipulation. Django + React combinations provide mature multi-tenant database patterns. Laravel + Inertia.js offers built-in tenant scoping with minimal configuration.</p>
                                     
-                                    <h2>Cost Analysis for SaaS Operations</h2>
+                                    <h2 id="cost-analysis-for-saas-operations">Cost Analysis for SaaS Operations</h2>
                                     <p>Infrastructure and operational costs vary significantly between framework choices.</p>
                                     
                                     <h3>Hosting and Infrastructure Costs</h3>
@@ -949,10 +979,10 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Framework Performance Benchmarks</div>
-                                <div class="section-nav-item">Developer Experience and Productivity</div>
-                                <div class="section-nav-item">Scalability Patterns and Architecture</div>
-                                <div class="section-nav-item">Cost Analysis for SaaS Operations</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('framework-performance-benchmarks')">Framework Performance Benchmarks</div>
+                                <div class="section-nav-item" onclick="scrollToSection('developer-experience-and-productivity')">Developer Experience and Productivity</div>
+                                <div class="section-nav-item" onclick="scrollToSection('scalability-patterns-and-architecture')">Scalability Patterns and Architecture</div>
+                                <div class="section-nav-item" onclick="scrollToSection('cost-analysis-for-saas-operations')">Cost Analysis for SaaS Operations</div>
                             </div>
                         </div>
                     `
@@ -963,7 +993,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>Modern Authentication Security: 2024 Best Practices and Implementation Guide</h1>
+                                    <h1>Authentication Security Best Practices</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -971,7 +1001,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Passwordless Authentication Standards</h2>
+                                    <h2 id="passwordless-authentication-standards">Passwordless Authentication Standards</h2>
                                     <p>The authentication landscape in 2024 has shifted dramatically toward passwordless methods, driven by security breaches and user experience demands.</p>
                                     
                                     <h3>WebAuthn and Passkeys Implementation</h3>
@@ -980,7 +1010,7 @@
                                     <h3>Magic Link Security Considerations</h3>
                                     <p>Magic links remain popular for user onboarding but require careful implementation. Links must expire within 15 minutes, be single-use, and include rate limiting. Consider implementing risk-based authentication that requires additional verification for suspicious login patterns. Always use cryptographically secure random tokens of at least 32 bytes.</p>
                                     
-                                    <h2>Multi-Factor Authentication Evolution</h2>
+                                    <h2 id="multi-factor-authentication-evolution">Multi-Factor Authentication Evolution</h2>
                                     <p>MFA has evolved beyond SMS OTP to more secure and user-friendly methods.</p>
                                     
                                     <h3>Biometric Integration Patterns</h3>
@@ -989,7 +1019,7 @@
                                     <h3>Risk-Based Adaptive Authentication</h3>
                                     <p>Modern systems analyze login context including device fingerprinting, location, time patterns, and behavioral biometrics. Suspicious activities trigger step-up authentication. Machine learning models can reduce false positives to under 0.1% while catching 95% of account takeover attempts.</p>
                                     
-                                    <h2>Session Management Best Practices</h2>
+                                    <h2 id="session-management-best-practices">Session Management Best Practices</h2>
                                     <p>Secure session handling is critical for maintaining authentication security post-login.</p>
                                     
                                     <h3>Token Rotation and Storage</h3>
@@ -998,7 +1028,7 @@
                                     <h3>Distributed Session Handling</h3>
                                     <p>Microservices architectures require careful session synchronization. JWT tokens with short expiration provide stateless authentication but require careful key management. Consider using Redis with encryption at rest for centralized session storage. Implement session invalidation webhooks for immediate revocation across services.</p>
                                     
-                                    <h2>Compliance and Privacy Requirements</h2>
+                                    <h2 id="compliance-and-privacy-requirements">Compliance and Privacy Requirements</h2>
                                     <p>Regulatory requirements shape authentication implementation in 2024.</p>
                                     
                                     <h3>GDPR and Global Privacy Laws</h3>
@@ -1011,10 +1041,10 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Passwordless Authentication Standards</div>
-                                <div class="section-nav-item">Multi-Factor Authentication Evolution</div>
-                                <div class="section-nav-item">Session Management Best Practices</div>
-                                <div class="section-nav-item">Compliance and Privacy Requirements</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('passwordless-authentication-standards')">Passwordless Authentication Standards</div>
+                                <div class="section-nav-item" onclick="scrollToSection('multi-factor-authentication-evolution')">Multi-Factor Authentication Evolution</div>
+                                <div class="section-nav-item" onclick="scrollToSection('session-management-best-practices')">Session Management Best Practices</div>
+                                <div class="section-nav-item" onclick="scrollToSection('compliance-and-privacy-requirements')">Compliance and Privacy Requirements</div>
                             </div>
                         </div>
                     `
@@ -1025,7 +1055,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>AI-Driven Personalization in E-commerce: Strategies and Implementation</h1>
+                                    <h1>AI E-commerce Personalization Strategies</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -1033,7 +1063,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Recommendation Engine Architectures</h2>
+                                    <h2 id="recommendation-engine-architectures">Recommendation Engine Architectures</h2>
                                     <p>Modern e-commerce platforms leverage sophisticated AI models to deliver personalized product recommendations that drive significant revenue increases.</p>
                                     
                                     <h3>Collaborative Filtering vs Deep Learning</h3>
@@ -1042,7 +1072,7 @@
                                     <h3>Real-Time Personalization Pipelines</h3>
                                     <p>Streaming architectures using Apache Kafka and Flink enable sub-50ms recommendation updates. Feature stores like Feast or Tecton maintain user profiles with 100+ real-time signals including browsing patterns, cart abandonment, and price sensitivity. GPU-accelerated inference servers handle millions of predictions per second, essential for Black Friday scale.</p>
                                     
-                                    <h2>Dynamic Pricing and Inventory Optimization</h2>
+                                    <h2 id="dynamic-pricing-and-inventory-optimization">Dynamic Pricing and Inventory Optimization</h2>
                                     <p>AI enables sophisticated pricing strategies that maximize revenue while maintaining customer satisfaction.</p>
                                     
                                     <h3>Personalized Pricing Models</h3>
@@ -1051,7 +1081,7 @@
                                     <h3>Demand Forecasting Integration</h3>
                                     <p>Prophet and LightGBM models predict demand at SKU-location level with 85% accuracy for 30-day horizons. Incorporating external signals like weather, events, and social media trends improves accuracy by 12%. Automated reordering systems prevent stockouts while minimizing carrying costs, particularly crucial for perishable goods.</p>
                                     
-                                    <h2>Conversational Commerce and AI Assistants</h2>
+                                    <h2 id="conversational-commerce-and-ai-assistants">Conversational Commerce and AI Assistants</h2>
                                     <p>Natural language interfaces are transforming how customers discover and purchase products.</p>
                                     
                                     <h3>Visual Search and Discovery</h3>
@@ -1060,7 +1090,7 @@
                                     <h3>Conversational AI Implementation</h3>
                                     <p>Large language models fine-tuned on product catalogs provide natural shopping assistants. RAG (Retrieval Augmented Generation) architectures ensure accurate product information while maintaining conversational flow. Successful implementations see 40% higher conversion rates compared to traditional search. Key challenges include handling multi-turn conversations and graceful fallbacks to human agents.</p>
                                     
-                                    <h2>Personalization Ethics and Privacy</h2>
+                                    <h2 id="personalization-ethics-and-privacy">Personalization Ethics and Privacy</h2>
                                     <p>Balancing personalization benefits with user privacy remains a critical challenge.</p>
                                     
                                     <h3>Privacy-Preserving Techniques</h3>
@@ -1073,10 +1103,10 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Recommendation Engine Architectures</div>
-                                <div class="section-nav-item">Dynamic Pricing and Inventory</div>
-                                <div class="section-nav-item">Conversational Commerce</div>
-                                <div class="section-nav-item">Personalization Ethics</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('recommendation-engine-architectures')">Recommendation Engine Architectures</div>
+                                <div class="section-nav-item" onclick="scrollToSection('dynamic-pricing-and-inventory-optimization')">Dynamic Pricing and Inventory</div>
+                                <div class="section-nav-item" onclick="scrollToSection('conversational-commerce-and-ai-assistants')">Conversational Commerce</div>
+                                <div class="section-nav-item" onclick="scrollToSection('personalization-ethics-and-privacy')">Personalization Ethics</div>
                             </div>
                         </div>
                     `
@@ -1087,7 +1117,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>Scalable RESTful API Design: Architecture Patterns and Best Practices</h1>
+                                    <h1>Scalable RESTful API Design</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -1095,7 +1125,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Resource Design and URL Structure</h2>
+                                    <h2 id="resource-design-and-url-structure">Resource Design and URL Structure</h2>
                                     <p>Well-designed resource models form the foundation of scalable REST APIs, impacting performance and developer experience.</p>
                                     
                                     <h3>Hierarchical Resource Modeling</h3>
@@ -1104,7 +1134,7 @@
                                     <h3>Versioning Strategies</h3>
                                     <p>URL versioning (/v1/, /v2/) remains most popular, used by 73% of public APIs. However, content negotiation via Accept headers provides more flexibility. Stripe's approach of maintaining all versions indefinitely with clear deprecation timelines has become the gold standard. Implement version transformation layers to minimize code duplication across versions.</p>
                                     
-                                    <h2>Performance Optimization Techniques</h2>
+                                    <h2 id="performance-optimization-techniques">Performance Optimization Techniques</h2>
                                     <p>High-traffic APIs require sophisticated optimization strategies beyond basic caching.</p>
                                     
                                     <h3>Pagination and Data Windowing</h3>
@@ -1113,7 +1143,7 @@
                                     <h3>Caching Strategies</h3>
                                     <p>Multi-layer caching dramatically improves performance: CDN edge caching for static resources, Redis for hot data, and database query caching. ETags enable conditional requests, reducing bandwidth by 80% for unchanged resources. Cache invalidation via webhooks or event streams maintains consistency. Consider stale-while-revalidate patterns for non-critical data.</p>
                                     
-                                    <h2>Rate Limiting and Traffic Management</h2>
+                                    <h2 id="rate-limiting-and-traffic-management">Rate Limiting and Traffic Management</h2>
                                     <p>Protecting API infrastructure while ensuring fair access requires sophisticated rate limiting.</p>
                                     
                                     <h3>Adaptive Rate Limiting</h3>
@@ -1122,7 +1152,7 @@
                                     <h3>Circuit Breakers and Graceful Degradation</h3>
                                     <p>Netflix's Hystrix patterns prevent cascade failures - circuit breakers trip after 50% error rate over 20 requests. Implement fallbacks for non-critical features and partial responses for degraded services. Health check endpoints should reflect downstream dependencies. Use exponential backoff with jitter for retry logic to prevent thundering herds.</p>
                                     
-                                    <h2>Security and Authentication Patterns</h2>
+                                    <h2 id="security-and-authentication-patterns">Security and Authentication Patterns</h2>
                                     <p>API security requires defense in depth with multiple layers of protection.</p>
                                     
                                     <h3>OAuth 2.0 and JWT Best Practices</h3>
@@ -1135,10 +1165,10 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Resource Design and URL Structure</div>
-                                <div class="section-nav-item">Performance Optimization</div>
-                                <div class="section-nav-item">Rate Limiting and Traffic</div>
-                                <div class="section-nav-item">Security and Authentication</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('resource-design-and-url-structure')">Resource Design and URL Structure</div>
+                                <div class="section-nav-item" onclick="scrollToSection('performance-optimization-techniques')">Performance Optimization</div>
+                                <div class="section-nav-item" onclick="scrollToSection('rate-limiting-and-traffic-management')">Rate Limiting and Traffic</div>
+                                <div class="section-nav-item" onclick="scrollToSection('security-and-authentication-patterns')">Security and Authentication</div>
                             </div>
                         </div>
                     `
@@ -1149,7 +1179,7 @@
                         <div class="research-container">
                             <div class="research-content">
                                 <div class="research-header">
-                                    <h1>Multi-Tenant Database Architecture: Design Patterns and Implementation Strategies</h1>
+                                    <h1>Multi-Tenant Database Architecture</h1>
                                 </div>
                                 
                                 <div class="research-question">
@@ -1157,7 +1187,7 @@
                                 </div>
                                 
                                 <div class="research-answer">
-                                    <h2>Tenant Isolation Strategies</h2>
+                                    <h2 id="tenant-isolation-strategies">Tenant Isolation Strategies</h2>
                                     <p>Choosing the right isolation level impacts security, performance, and operational complexity throughout your application's lifecycle.</p>
                                     
                                     <h3>Database-per-Tenant Architecture</h3>
@@ -1169,7 +1199,7 @@
                                     <h3>Shared Schema with Row-Level Security</h3>
                                     <p>Most cost-effective for high-volume B2C applications. Shopify processes 1M+ requests/second using shared schemas with tenant_id columns. Implement composite indexes (tenant_id, primary_key) for all tables. Use database features like PostgreSQL's Row Level Security or MySQL's connection attributes for automatic filtering. This approach scales to millions of tenants but requires rigorous testing to prevent data leaks.</p>
                                     
-                                    <h2>Performance Optimization Patterns</h2>
+                                    <h2 id="performance-optimization-patterns">Performance Optimization Patterns</h2>
                                     <p>Multi-tenant architectures face unique performance challenges requiring specialized solutions.</p>
                                     
                                     <h3>Indexing Strategies</h3>
@@ -1178,7 +1208,7 @@
                                     <h3>Sharding and Partitioning</h3>
                                     <p>Horizontal sharding by tenant_id enables linear scaling. Discord shards by guild_id across 1000+ database instances. Implement consistent hashing for shard assignment to minimize data movement during scaling. Table partitioning by date improves performance for time-series data - partition monthly data older than 90 days. Use pg_partman or native partitioning for automated partition management.</p>
                                     
-                                    <h2>Data Migration and Schema Evolution</h2>
+                                    <h2 id="data-migration-and-schema-evolution">Data Migration and Schema Evolution</h2>
                                     <p>Schema changes in multi-tenant environments require careful planning and execution.</p>
                                     
                                     <h3>Zero-Downtime Migrations</h3>
@@ -1187,7 +1217,7 @@
                                     <h3>Tenant-Specific Customizations</h3>
                                     <p>EAV (Entity-Attribute-Value) patterns enable custom fields but impact performance. JSONB columns in PostgreSQL provide better performance for semi-structured data. Implement a metadata service to track custom fields per tenant. Consider separate extension tables for custom data to maintain query performance on core tables. Limit customizations to prevent schema explosion - Salesforce limits custom objects to 2000 per tenant.</p>
                                     
-                                    <h2>Backup and Disaster Recovery</h2>
+                                    <h2 id="backup-and-disaster-recovery">Backup and Disaster Recovery</h2>
                                     <p>Multi-tenant architectures require sophisticated backup strategies balancing cost and recovery objectives.</p>
                                     
                                     <h3>Tenant-Level Backup Strategies</h3>
@@ -1200,10 +1230,10 @@
                             
                             <div class="section-nav">
                                 <div class="section-nav-title">On this page</div>
-                                <div class="section-nav-item active">Tenant Isolation Strategies</div>
-                                <div class="section-nav-item">Performance Optimization</div>
-                                <div class="section-nav-item">Data Migration and Evolution</div>
-                                <div class="section-nav-item">Backup and Recovery</div>
+                                <div class="section-nav-item active" onclick="scrollToSection('tenant-isolation-strategies')">Tenant Isolation Strategies</div>
+                                <div class="section-nav-item" onclick="scrollToSection('performance-optimization-patterns')">Performance Optimization</div>
+                                <div class="section-nav-item" onclick="scrollToSection('data-migration-and-schema-evolution')">Data Migration and Evolution</div>
+                                <div class="section-nav-item" onclick="scrollToSection('backup-and-disaster-recovery')">Backup and Recovery</div>
                             </div>
                         </div>
                     `
@@ -1253,8 +1283,8 @@
                 </div>
             `;
             
-            // Scroll to bottom
-            messagesArea.scrollTop = messagesArea.scrollHeight;
+            // Scroll to top of messages area
+            messagesArea.scrollTop = 0;
         }
 
         function newChat() {
@@ -1264,6 +1294,32 @@
             messagesArea.innerHTML = '';
             // Remove has-messages class to center input again
             chatContainer.classList.remove('has-messages');
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const messagesArea = document.getElementById('messagesArea');
+            
+            if (element && messagesArea) {
+                // Calculate the position of the element relative to the messages area
+                const elementRect = element.getBoundingClientRect();
+                const messagesRect = messagesArea.getBoundingClientRect();
+                const scrollPosition = messagesArea.scrollTop + elementRect.top - messagesRect.top - 20; // 20px offset
+                
+                // Smooth scroll to the element
+                messagesArea.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update active state of section nav items
+                const navItems = document.querySelectorAll('.section-nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+                const clickedItem = document.querySelector(`[onclick="scrollToSection('${sectionId}')"]`);
+                if (clickedItem) {
+                    clickedItem.classList.add('active');
+                }
+            }
         }
 
         function handleFileSelect(event) {
