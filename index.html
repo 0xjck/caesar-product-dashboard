@@ -532,6 +532,18 @@
             gap: 4px;
         }
 
+        /* Hide view toggle on mobile devices */
+        @media (max-width: 768px) {
+            .view-toggle {
+                display: none !important;
+            }
+            
+            body {
+                /* Force mobile view on actual mobile devices */
+                --is-mobile-device: true;
+            }
+        }
+
         .toggle-option {
             width: 36px;
             height: 36px;
@@ -1495,6 +1507,36 @@
                 deviceDropdown.classList.remove('active');
             }
         });
+
+        // Mobile device detection and automatic view setting
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth <= 768;
+        }
+
+        // Initialize view based on device type
+        function initializeView() {
+            const viewToggle = document.querySelector('.view-toggle');
+            const appContainer = document.getElementById('appContainer');
+            
+            if (isMobileDevice()) {
+                // Hide view toggle on mobile devices
+                viewToggle.style.display = 'none';
+                // Force mobile view
+                appContainer.parentElement.classList.add('mobile-view');
+                appContainer.parentElement.style.maxWidth = currentDevice.width + 'px';
+                document.getElementById('sideNav').classList.add('active');
+            } else {
+                // Show view toggle on desktop
+                viewToggle.style.display = 'flex';
+                // Default to desktop view
+                switchView('desktop');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeView);
+        window.addEventListener('resize', initializeView);
     </script>
 </body>
 </html>
