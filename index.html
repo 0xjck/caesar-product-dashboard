@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat - Lo-fi Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Main Container */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Side Navigation */
+        .side-nav {
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: width 0.3s ease;
+            overflow-y: auto;
+            flex-shrink: 0;
+            width: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .side-nav.active {
+            width: 280px;
+        }
+
+        .nav-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .nav-section-title {
+            padding: 16px 20px 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Documentation Cards */
+        .doc-card {
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .doc-card:hover {
+            background-color: #e9ecef;
+        }
+
+        .doc-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .doc-card-subtitle {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        .burger-menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 5px;
+            z-index: 100;
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        .message.ai .message-avatar {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .message-content {
+            flex: 1;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-content {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        /* Input Area */
+        .input-container {
+            position: fixed;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            z-index: 50;
+            width: 90%;
+            max-width: 600px;
+            transition: left 0.3s ease;
+        }
+
+        .side-nav.active ~ .chat-container .input-container {
+            left: calc(50% + 140px);
+            margin-left: 10px;
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .input-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 100px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .file-upload-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: background-color 0.2s;
+            align-self: flex-start;
+        }
+
+        .file-upload-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 16px;
+            padding: 0;
+            min-height: 72px;
+            max-height: 120px;
+            resize: none;
+        }
+
+        .send-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .send-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* File Preview */
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            margin: 8px 0 0 0;
+            font-size: 14px;
+        }
+
+        .file-remove {
+            cursor: pointer;
+            color: #666;
+            margin-left: 8px;
+        }
+
+        /* User Profile Section */
+        .user-profile-section {
+            background-color: #f8f8f8;
+            border-top: 1px solid #e0e0e0;
+            margin-top: auto;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #007AFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #666;
+        }
+
+
+        /* View Toggle Button */
+        .view-toggle {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toggle-option {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background-color: transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-option.active {
+            background-color: #007AFF;
+            color: white;
+        }
+
+        .toggle-option:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+
+        /* Mobile View Styles */
+        .mobile-view {
+            max-width: 390px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mobile-view .app-container {
+            border-radius: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .side-nav.active {
+                width: 85vw;
+            }
+            
+            .side-nav.active ~ .chat-container .input-container {
+                left: calc(50% + 42.5vw);
+            }
+            
+            .input-container {
+                width: 95%;
+                max-width: none;
+            }
+        }
+
+        /* Mobile View Input Background */
+        .mobile-view .input-background {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 140px;
+            background-color: #f5f5f5;
+            z-index: 40;
+        }
+
+        /* Mobile View Specific Responsive */
+        .mobile-view .input-container {
+            position: absolute !important;
+            bottom: 60px !important;
+            left: 20px !important;
+            right: 20px !important;
+            width: auto !important;
+            max-width: none !important;
+            margin: 0 !important;
+            transform: none !important;
+            padding: 0 !important;
+            z-index: 50 !important;
+        }
+
+        .mobile-view .side-nav.active ~ .chat-container .input-container {
+            display: none !important;
+        }
+
+        .mobile-view .side-nav.active ~ .chat-container .input-background {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- View Toggle Button -->
+    <div class="view-toggle">
+        <button class="toggle-option active" id="desktopToggle" onclick="switchView('desktop')" title="Desktop View">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+        </button>
+        <button class="toggle-option" id="mobileToggle" onclick="switchView('mobile')" title="Mobile View">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="app-container" id="appContainer">
+        <!-- Side Navigation -->
+        <nav class="side-nav active" id="sideNav">
+            <div class="nav-header">
+                <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                    <div style="width: 40px; height: 40px; background-color: #007AFF; border-radius: 8px;"></div>
+                    <div style="padding: 4px 12px; background-color: rgba(255,255,255,0.2); border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; font-size: 12px; color: #666;">Alpha</div>
+                </div>
+                <button onclick="newChat()" style="width: 36px; height: 36px; border-radius: 8px; background-color: #f0f0f0; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#e0e0e0'" onmouseout="this.style.backgroundColor='#f0f0f0'">+</button>
+            </div>
+            
+            <div class="nav-content">
+                <div style="margin-top: 24px;"></div>
+                <div class="nav-section-title">ASKS</div>
+            <div class="nav-item" onclick="loadChat('Morning conversation')">Morning conversation</div>
+            <div class="nav-item" onclick="loadChat('Project discussion')">Project discussion</div>
+            <div class="nav-item" onclick="loadChat('Code review')">Code review</div>
+            <div class="nav-item" onclick="loadChat('Design ideas')">Design ideas</div>
+            <div class="nav-item" onclick="loadChat('API documentation')">API documentation</div>
+            <div class="nav-item" onclick="loadChat('Database schema')">Database schema</div>
+            </div>
+            
+            <!-- Documentation Cards -->
+            <div style="padding: 16px 20px;">
+                <div class="doc-card" onclick="openDocs('getting-started')">
+                    <div class="doc-card-title">Getting started with Asks</div>
+                    <div class="doc-card-subtitle">Learn how to make the most of Caesar.</div>
+                </div>
+                <div class="doc-card" onclick="openDocs('api')" style="margin-top: 12px;">
+                    <div class="doc-card-title">Caesar API</div>
+                    <div class="doc-card-subtitle">Access the API docs</div>
+                </div>
+            </div>
+            
+            <!-- User Profile Section -->
+            <div class="user-profile-section">
+                <div class="user-profile">
+                    <div class="user-avatar">JH</div>
+                    <div class="user-info">
+                        <div class="user-name">John Hughes</div>
+                        <div class="user-email">john@example.com</div>
+                    </div>
+                    <button onclick="openSettings()" style="width: 32px; height: 32px; border-radius: 8px; background-color: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="burger-menu" onclick="toggleSideNav()">
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+                <div class="burger-line"></div>
+            </div>
+            <div class="messages-area" id="messagesArea">
+            </div>
+
+            <!-- Mobile Input Background -->
+            <div class="input-background"></div>
+
+            <!-- Input Container -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <div class="input-box">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="Ask anything"
+                            rows="3"
+                            onkeydown="handleKeyPress(event)"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                        <div id="filePreview"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <button class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                                </svg>
+                            </button>
+                            <button class="send-button" id="sendButton" onclick="sendMessage()">
+                                ➤
+                            </button>
+                        </div>
+                        <input type="file" id="fileInput" class="file-input" multiple onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #999;">
+                    Caesar can make mistakes. Please double-check responses.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFiles = [];
+
+        function toggleSideNav() {
+            const sideNav = document.getElementById('sideNav');
+            sideNav.classList.toggle('active');
+        }
+
+        // Auto-focus input on load
+        window.addEventListener('load', function() {
+            document.getElementById('chatInput').focus();
+        });
+
+        function loadChat(chatName) {
+            toggleSideNav();
+            const messagesArea = document.getElementById('messagesArea');
+            messagesArea.innerHTML = `
+                <div class="message ai">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        Loaded chat: ${chatName}
+                    </div>
+                </div>
+            `;
+        }
+
+        function newChat() {
+            toggleSideNav();
+            const messagesArea = document.getElementById('messagesArea');
+            messagesArea.innerHTML = '';
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            selectedFiles = [...selectedFiles, ...files];
+            updateFilePreview();
+        }
+
+        function updateFilePreview() {
+            const filePreview = document.getElementById('filePreview');
+            filePreview.innerHTML = selectedFiles.map((file, index) => `
+                <div class="file-preview">
+                    📄 ${file.name}
+                    <span class="file-remove" onclick="removeFile(${index})">✕</span>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFilePreview();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message || selectedFiles.length > 0) {
+                const messagesArea = document.getElementById('messagesArea');
+                
+                // Add user message
+                const userMessageHtml = `
+                    <div class="message user">
+                        <div class="message-avatar">U</div>
+                        <div class="message-content">
+                            ${message}
+                            ${selectedFiles.length > 0 ? `<br><small>📎 ${selectedFiles.length} file(s) attached</small>` : ''}
+                        </div>
+                    </div>
+                `;
+                messagesArea.insertAdjacentHTML('beforeend', userMessageHtml);
+                
+                // Clear input and files
+                input.value = '';
+                selectedFiles = [];
+                updateFilePreview();
+                autoResize(input);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiResponse = `
+                        <div class="message ai">
+                            <div class="message-avatar">AI</div>
+                            <div class="message-content">
+                                I've received your message${selectedFiles.length > 0 ? ' and files' : ''}. This is a demo response. In a real application, this would be processed by an AI model.
+                            </div>
+                        </div>
+                    `;
+                    messagesArea.insertAdjacentHTML('beforeend', aiResponse);
+                    messagesArea.scrollTop = messagesArea.scrollHeight;
+                }, 1000);
+                
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        function openSettings() {
+            alert('Settings clicked - would open settings panel');
+        }
+
+        function openDocs(type) {
+            if (type === 'getting-started') {
+                alert('Opening Getting Started docs...');
+            } else if (type === 'api') {
+                alert('Opening API docs...');
+            }
+        }
+
+        function switchView(viewType) {
+            const appContainer = document.getElementById('appContainer');
+            const desktopToggle = document.getElementById('desktopToggle');
+            const mobileToggle = document.getElementById('mobileToggle');
+            
+            if (viewType === 'mobile') {
+                appContainer.parentElement.classList.add('mobile-view');
+                desktopToggle.classList.remove('active');
+                mobileToggle.classList.add('active');
+            } else {
+                appContainer.parentElement.classList.remove('mobile-view');
+                desktopToggle.classList.add('active');
+                mobileToggle.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
