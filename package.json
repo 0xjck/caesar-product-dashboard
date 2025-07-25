@@ -1,12 +1,12 @@
 {
-  "name": "caesar-ai-chat-prototype",
-  "version": "1.0.1",
-  "description": "A lo-fi prototype of an AI chat application built with HTML, CSS, and JavaScript",
+  "name": "caesar-product-dashboard",
+  "version": "1.0.0",
+  "description": "Caesar product dashboard with PRDs, design system, prototypes, and development tools",
   "main": "index.html",
   "scripts": {
     "dev": "open index.html"
   },
-  "keywords": ["prototype", "ai", "chat", "caesar"],
+  "keywords": ["caesar", "dashboard", "design-system", "prototypes", "prd"],
   "author": "Caesar Team",
   "license": "MIT"
 }

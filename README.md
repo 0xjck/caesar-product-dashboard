@@ -1,21 +1,24 @@
-# AI Chat Prototype
+# Caesar Product Dashboard
 
-A lo-fi prototype of an AI chat application built with HTML, CSS, and JavaScript.
+A comprehensive product dashboard for Caesar AI featuring PRDs, design system access, interactive prototypes, and development tools.
 
 ## Features
 
-- **Responsive Design**: Works on both desktop and mobile devices
-- **Side Navigation**: Collapsible navigation with chat history and documentation cards
-- **File Upload**: Support for file attachments in chat
-- **Mobile-First**: Optimized mobile experience with proper touch interactions
-- **View Toggle**: Switch between desktop and mobile preview modes
+- **Product Dashboard**: Central hub for Caesar product development
+- **Current PRDs**: Active product requirements with direct Jira integration
+- **Design System**: Quick access to Figma design files and Storybook components
+- **Prototype Access**: Direct links to mobile and desktop prototypes
+- **Coming Soon**: Preview of upcoming tools and resources
+- **Responsive Design**: Optimized for both desktop and mobile devices
+- **Version Management**: Automated version display and tracking
 
 ## Components
 
-- **Chat Interface**: Full-screen chat with centered input box
-- **Navigation Panel**: Side panel with chat history, documentation links, and user profile
-- **Input System**: Multi-line text input with file upload capability
-- **Mobile Optimization**: Phone-like layout with proper navigation behavior
+- **Main Dashboard**: Clean layout with key product sections
+- **Navigation Header**: Transparent header with prototype access and admin tools
+- **PRD Management**: Live links to Jira boards and project tracking
+- **Design Resources**: Direct access to Figma files and component libraries
+- **Settings Integration**: Mobile and desktop settings interface prototypes
 
 ## Usage
 
