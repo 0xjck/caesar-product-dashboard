@@ -1,6 +1,6 @@
 {
   "name": "caesar-ai-chat-prototype",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lo-fi prototype of an AI chat application built with HTML, CSS, and JavaScript",
   "main": "index.html",
   "scripts": {
