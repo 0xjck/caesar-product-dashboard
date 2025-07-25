@@ -1,0 +1,14 @@
+{
+  "name": "caesar-ai-chat-prototype",
+  "version": "1.0.0",
+  "description": "A lo-fi prototype of an AI chat application built with HTML, CSS, and JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "build": "node inject-version.js",
+    "dev": "node inject-version.js && open index.html",
+    "version:inject": "node inject-version.js"
+  },
+  "keywords": ["prototype", "ai", "chat", "caesar"],
+  "author": "Caesar Team",
+  "license": "MIT"
+}

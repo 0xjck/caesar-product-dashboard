@@ -37,3 +37,29 @@ Open `index.html` in a web browser to view the prototype.
 This is a static HTML prototype built for rapid iteration and testing of UI/UX concepts.
 
 Built with vanilla HTML, CSS, and JavaScript - no dependencies required.
+
+### Version Management
+
+The version number displayed on the main page is automatically injected at build time:
+
+```bash
+# Inject current version
+npm run build
+
+# Or manually
+node inject-version.js
+```
+
+**Version Sources (in priority order):**
+1. `package.json` version field
+2. Latest git tag (`git describe --tags --abbrev=0`)
+3. Git commit hash (fallback: `v0.0.0-<hash>`)
+4. Default: `v1.0.0-dev`
+
+### Build Scripts
+
+```bash
+npm run build        # Inject version into HTML
+npm run dev          # Inject version and open in browser  
+npm run version:inject # Just inject version
+```
