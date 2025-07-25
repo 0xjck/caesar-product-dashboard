@@ -1301,9 +1301,9 @@
         }
 
         .admin-access-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: #5B4471;
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #5B4471;
             padding: 10px 20px;
             border-radius: 25px;
             font-weight: 600;
@@ -1315,8 +1315,8 @@
         }
 
         .admin-access-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: #6D5486;
+            border-color: #6D5486;
             transform: translateY(-2px);
         }
 
@@ -1381,6 +1381,29 @@
             padding: 140px 40px 40px;
             position: relative;
             z-index: 10;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .sections-container {
+            text-align: left;
         }
 
         .hero-section {
@@ -1731,6 +1754,104 @@
             letter-spacing: 0.5px;
         }
 
+        /* Vibeprototyping Styles */
+        .vibeprototyping-section {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .vibe-grid {
+            display: flex;
+            justify-content: center;
+            margin-top: 48px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .vibe-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vibe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .vibe-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .vibe-status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .vibe-card.concept .vibe-status {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .vibe-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: white;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .vibe-card.concept .vibe-icon {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .vibe-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .vibe-card p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .vibe-meta {
+            font-size: 12px;
+            color: #EC6A4A;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
         /* Footer */
         .main-footer {
             margin-top: 80px;
@@ -1746,11 +1867,10 @@
             margin: 0 auto;
         }
 
-        .mobile-admin-btn {
-            display: none;
-            background: rgba(255, 255, 255, 0.2);
+        .footer-admin-btn {
+            background: #5B4471;
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #5B4471;
             padding: 12px 24px;
             border-radius: 25px;
             font-weight: 600;
@@ -1761,9 +1881,9 @@
             letter-spacing: 0.5px;
         }
 
-        .mobile-admin-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+        .footer-admin-btn:hover {
+            background: #6D5486;
+            border-color: #6D5486;
             transform: translateY(-2px);
         }
 
@@ -1779,7 +1899,7 @@
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         }
 
-        /* Design System Styles */
+        /* Design Resources Styles */
         .design-system-grid {
             display: flex;
             gap: 16px;
@@ -1976,6 +2096,29 @@
             line-height: 1.6;
         }
 
+        /* Medium screens - tablets */
+        @media (max-width: 1024px) {
+            .sections-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .main-content {
+                padding: 120px 30px 40px;
+            }
+            
+            .vibeprototyping-section {
+                margin-top: 60px;
+                padding-top: 40px;
+            }
+            
+            .vibe-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                margin-top: 32px;
+            }
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .main-navigation {
@@ -2000,9 +2143,6 @@
                 display: none;
             }
             
-            .mobile-admin-btn {
-                display: block;
-            }
             
             .main-footer {
                 margin-top: 60px;
@@ -2050,6 +2190,16 @@
                 padding: 120px 16px 60px;
             }
             
+            .page-title {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+            
+            .page-subtitle {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+            
             .coming-soon-section {
                 margin-top: 60px;
                 padding-top: 40px;
@@ -2082,6 +2232,29 @@
             .sections-container {
                 grid-template-columns: 1fr;
                 gap: 32px;
+            }
+            
+            .vibeprototyping-section {
+                margin-top: 50px;
+                padding-top: 30px;
+            }
+            
+            .vibe-grid {
+                gap: 16px;
+                margin-top: 24px;
+            }
+            
+            .vibe-card {
+                padding: 20px 16px;
+                min-height: 140px;
+            }
+            
+            .vibe-card h3 {
+                font-size: 16px;
+            }
+            
+            .vibe-card p {
+                font-size: 13px;
             }
             
             .design-system-grid {
@@ -2168,6 +2341,14 @@
                 padding: 100px 12px 40px;
             }
             
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .page-subtitle {
+                font-size: 14px;
+            }
+            
             .section-title {
                 font-size: 24px;
             }
@@ -2206,7 +2387,7 @@
                 padding: 20px 12px 12px;
             }
             
-            .mobile-admin-btn {
+            .footer-admin-btn {
                 padding: 10px 20px;
                 font-size: 12px;
             }
@@ -2277,11 +2458,13 @@
                         </button>
                     </div>
                 </div>
-                <button class="admin-access-btn" onclick="openAdminSettings()">Admin Access</button>
             </div>
         </nav>
 
         <div class="main-content">
+            <h1 class="page-title">Product Dashboard</h1>
+            <p class="page-subtitle">Central hub for Caesar product development, design system, and prototypes</p>
+            
             <!-- Current PRDs Section -->
             <div class="sections-container">
                 <div class="section prds">
@@ -2305,9 +2488,9 @@
                     </div>
                 </div>
                 
-                <!-- Design System Section -->
+                <!-- Design Resources Section -->
                 <div class="section design">
-                    <h2 class="section-title">Design System</h2>
+                    <h2 class="section-title">Design Resources</h2>
                     <p class="section-subtitle">Comprehensive design language and component library</p>
                     
                     <div class="design-system-grid">
@@ -2338,6 +2521,26 @@
                             <p>Interactive component library and documentation</p>
                             <div class="design-meta">📚 View Storybook</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vibeprototyping Section -->
+            <div class="vibeprototyping-section">
+                <h2 class="section-title">Vibeprototyping</h2>
+                <p class="section-subtitle">Experimental interface explorations and concept testing</p>
+                
+                <div class="vibe-grid">
+                    <div class="vibe-card active" onclick="window.location.href='vibeframing.html'" style="cursor: pointer;">
+                        <div class="vibe-status">Active</div>
+                        <div class="vibe-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                            </svg>
+                        </div>
+                        <h3>Caesar Vibeframing</h3>
+                        <p>Dynamic interface adaptation based on user context and interaction patterns</p>
+                        <div class="vibe-meta">🔮 Live Experiment</div>
                     </div>
                 </div>
             </div>
@@ -2397,7 +2600,7 @@
             <!-- Footer -->
             <div class="main-footer">
                 <div class="footer-content">
-                    <button class="mobile-admin-btn" onclick="openAdminSettings()">Admin Access</button>
+                    <button class="footer-admin-btn" onclick="openAdminSettings()">Admin Access</button>
                     <div class="version-info">
                         <span class="version-text">v1.0.0</span>
                     </div>
