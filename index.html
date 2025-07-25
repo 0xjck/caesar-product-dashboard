@@ -1731,11 +1731,45 @@
             letter-spacing: 0.5px;
         }
 
+        /* Footer */
+        .main-footer {
+            margin-top: 80px;
+            padding: 40px 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mobile-admin-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mobile-admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
         /* Version Info */
         .version-info {
-            position: absolute;
-            bottom: 20px;
-            right: 40px;
+            position: static;
         }
 
         .version-text {
@@ -1953,13 +1987,32 @@
             }
             
             .main-logo {
-                height: 28px;
+                height: 40px;
             }
             
             .main-nav-links {
                 justify-content: center;
                 flex-wrap: wrap;
                 gap: 12px;
+            }
+            
+            .admin-access-btn {
+                display: none;
+            }
+            
+            .mobile-admin-btn {
+                display: block;
+            }
+            
+            .main-footer {
+                margin-top: 60px;
+                padding: 30px 16px 16px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
             }
             
             .prototype-access {
@@ -2092,7 +2145,7 @@
             }
             
             .main-logo {
-                height: 24px;
+                height: 36px;
             }
             
             .prototype-label {
@@ -2148,9 +2201,14 @@
                 padding: 16px 12px;
             }
             
-            .version-info {
-                right: 16px;
-                bottom: 12px;
+            .main-footer {
+                margin-top: 40px;
+                padding: 20px 12px 12px;
+            }
+            
+            .mobile-admin-btn {
+                padding: 10px 20px;
+                font-size: 12px;
             }
             
             .version-text {
@@ -2336,9 +2394,14 @@
                 </div>
             </div>
             
-            <!-- Version Info -->
-            <div class="version-info">
-                <span class="version-text">v1.0.0</span>
+            <!-- Footer -->
+            <div class="main-footer">
+                <div class="footer-content">
+                    <button class="mobile-admin-btn" onclick="openAdminSettings()">Admin Access</button>
+                    <div class="version-info">
+                        <span class="version-text">v1.0.0</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
